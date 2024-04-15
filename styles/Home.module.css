@@ -108,6 +108,18 @@
   margin-left: 0.5rem;
 }
 
+.layoutContainer {
+    display: flex;
+}
+
+.leftColumn {
+    width: 80%;
+}
+
+.rightColumn {
+    width: 20%;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

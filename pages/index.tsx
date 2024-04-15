@@ -11,8 +11,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.card}>
-        <h1>Elevator</h1>
+      <div className={styles.layoutContainer}>
+        <div className={styles.leftColumn}>
+          <div className={styles.card}>
+            <h1>Elevator</h1>
+          </div>
+        </div>
+        <div className={styles.rightColumn}>
+          <div className={styles.card}>
+            <h1>Elevator History</h1>
+            <ul>
+                <li>Floor 1</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
