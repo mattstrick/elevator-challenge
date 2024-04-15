@@ -1,8 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import { useState } from "react";
 
 const Home: NextPage = () => {
+  const [floor, setFloor] = useState(1);
+  const [isMoving, setIsMoving] = useState(false);
+  const [doors, setDoors] = useState("closed");
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,13 +21,13 @@ const Home: NextPage = () => {
           <div className={styles.card}>
             <h1>Elevator</h1>
             <div>
-                Floor 1
+                Floor {floor}
             </div>
             <div>
-                Is not moving
+                {isMoving?'Is moving' : 'Is not moving'}
             </div>
             <div>
-                Doors are closed
+                Doors are {doors}
             </div>
           </div>
         </div>
