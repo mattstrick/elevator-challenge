@@ -15,12 +15,42 @@ const Home: NextPage = () => {
         <div className={styles.leftColumn}>
           <div className={styles.card}>
             <h1>Elevator</h1>
+            <div>
+                Floor 1
+            </div>
+            <div>
+                Is not moving
+            </div>
+            <div>
+                Doors are closed
+            </div>
           </div>
         </div>
         <div className={styles.rightColumn}>
           <div className={styles.card}>
             <h1>Elevator History</h1>
+            <div className={styles.overlay}></div>
             <ul>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
+                <li>Floor 1</li>
                 <li>Floor 1</li>
             </ul>
           </div>
