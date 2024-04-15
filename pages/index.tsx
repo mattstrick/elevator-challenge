@@ -9,6 +9,59 @@ const Home: NextPage = () => {
   const [isMoving, setIsMoving] = useState(false);
   const [doors, setDoors] = useState("closed");
   const [events, setEvents] = useState<Array<string>>([]);
+  const [todo, setTodo] = useState<Array<string>>([]);
+
+  const getNextTodo = () => {
+    let nextTodo;
+
+    if (todo.length > 0) {
+        nextTodo = todo.shift();
+        console.log('todo', todo);
+        setTodo([...todo]);
+
+        // Do something with the todo
+    } else {
+        console.log('current floor', currentFloor)
+        // Go to floor 1 and open doors
+        if (currentFloor > 1) {
+            decreaseFloor();
+        }
+
+        if (currentFloor === 1 && doors === "closed") {
+            openDoors();
+        }
+    }
+  }
+
+  const decreaseFloor = () => {
+    if (currentFloor > 1) {
+        setCurrentFloor(currentFloor - 1);
+        console.log('new floor is ', currentFloor);
+        updateEventsList(`Moved to floor ${currentFloor}`);
+    } else {
+        console.warn('cant go down anymore!');
+    }
+  }
+
+  const increaseFloor = () => {
+    if (currentFloor > 20) {
+        console.warn('cant go up anymore!');
+    } else {
+        setCurrentFloor(currentFloor + 1);
+        console.log('new floor is ', currentFloor);
+        updateEventsList(`Moved to floor ${currentFloor}`);
+    }
+  }
+
+  const openDoors = () => {
+    setDoors("open");
+    updateEventsList('Opened doors');
+  }
+
+  const closeDoors = () => {
+    setDoors("close");
+    updateEventsList('Closed doors');
+  }
 
 //   const requestElevator = (floor: number): void => {
 //     if (floor === currentFloor) {
@@ -30,9 +83,9 @@ const Home: NextPage = () => {
 //   }
 
   const updateEventsList = (newEvent: string): void => {
-    if (events.length >= 20) {
-        setEvents([...events.slice(1),newEvent])
-    }
+    // if (events.length >= 20) {
+    //     setEvents([...events.slice(1),newEvent])
+    // }
     setEvents([...events, newEvent]);
   }
 
