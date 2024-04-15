@@ -2,11 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
+import ElevatorHistory from "../components/ElevatorHistory";
 
 const Home: NextPage = () => {
   const [floor, setFloor] = useState(1);
   const [isMoving, setIsMoving] = useState(false);
   const [doors, setDoors] = useState("closed");
+  const [events, setEvents] = useState([]);
+
+  
 
   return (
     <div className={styles.container}>
@@ -32,33 +36,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className={styles.rightColumn}>
-          <div className={styles.card}>
-            <h1>Elevator History</h1>
-            <div className={styles.overlay}></div>
-            <ul>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-                <li>Floor 1</li>
-            </ul>
-          </div>
+          <ElevatorHistory history={events} />
         </div>
       </div>
     </div>
