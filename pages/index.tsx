@@ -5,12 +5,36 @@ import { useState } from "react";
 import ElevatorHistory from "../components/ElevatorHistory";
 
 const Home: NextPage = () => {
-  const [floor, setFloor] = useState(1);
+  const [currentFloor, setCurrentFloor] = useState(1);
   const [isMoving, setIsMoving] = useState(false);
   const [doors, setDoors] = useState("closed");
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Array<string>>([]);
 
-  
+//   const requestElevator = (floor: number): void => {
+//     if (floor === currentFloor) {
+//         receiveTenant();
+//     } else if (floor > currentFloor) {
+//         // Go Up
+//     } else {
+//         // Go Down
+//     }
+//   }
+
+//   const receiveTenant = (): void => {
+//     if (doors === 'closed') {
+//         setDoors('open');
+//         updateEventsList('Doors opened');
+//     } else {
+//         // Do Work
+//     }
+//   }
+
+  const updateEventsList = (newEvent: string): void => {
+    if (events.length >= 20) {
+        setEvents([...events.slice(1),newEvent])
+    }
+    setEvents([...events, newEvent]);
+  }
 
   return (
     <div className={styles.container}>
@@ -25,7 +49,7 @@ const Home: NextPage = () => {
           <div className={styles.card}>
             <h1>Elevator</h1>
             <div>
-                Floor {floor}
+                Floor {currentFloor}
             </div>
             <div>
                 {isMoving?'Is moving' : 'Is not moving'}
