@@ -8,42 +8,20 @@ import { elevatorReducer } from "../reducers/ElevatorReducer";
 import ElevatorDisplay from "../components/ElevatorDisplay";
 
 const Home: NextPage = () => {
-  const initialTasks = { doors: "closed", isMoving: false, currentFloor: 0, events: [] };
-  
-  const [todo, setTodo] = useState<Array<string>>([]);
-  const [elevator, dispatch] = useReducer(elevatorReducer, initialTasks);
-
-  const getNextTodo = () => {
-    let nextTodo;
-
-    if (todo.length > 0) {
-      nextTodo = todo.shift();
-      setTodo([...todo]);
-
-      // Do something with the todo
-    } else {
-      // Go to floor 1 and open doors
-      if (elevator.currentFloor > 1) {
-        decreaseFloor();
-      }
-
-      if (elevator.currentFloor === 1 && elevator.doors === "closed") {
-        openDoors();
-      }
-    }
+  const initialTasks = {
+    doors: "closed",
+    isMoving: false,
+    currentFloor: 0,
+    events: [],
   };
+
+  const [elevator, dispatch] = useReducer(elevatorReducer, initialTasks);
 
   const decreaseFloor = () => {
     dispatch({
       type: "decrease floor",
       floor: elevator.currentFloor,
     });
-
-    // if (currentFloor > 1) {
-    //     setCurrentFloor(currentFloor - 1);
-    // } else {
-    //     console.warn('cant go down anymore!');
-    // }
   };
 
   const increaseFloor = () => {
@@ -51,13 +29,6 @@ const Home: NextPage = () => {
       type: "increase floor",
       floor: elevator.currentFloor,
     });
-
-    // if (currentFloor === 20) {
-    //     console.warn('cant go up anymore!');
-    // } else {
-    //     setCurrentFloor(currentFloor + 1);
-    //     console.log('new floor is ', currentFloor);
-    // }
   };
 
   const openDoors = () => {
@@ -72,30 +43,20 @@ const Home: NextPage = () => {
     });
   };
 
-  //   const requestElevator = (floor: number): void => {
-  //     if (floor === currentFloor) {
-  //         receiveTenant();
-  //     } else if (floor > currentFloor) {
-  //         // Go Up
-  //     } else {
-  //         // Go Down
-  //     }
-  //   }
-
-  //   const receiveTenant = (): void => {
-  //     if (doors === 'closed') {
-  //         setDoors('open');
-  //     } else {
-  //         // Do Work
-  //     }
-  //   }
-
   const handleOpenDoors = () => {
     openDoors();
   };
 
   const handleCloseDoors = () => {
     closeDoors();
+  };
+
+  const handleIncreaseFloor = () => {
+    increaseFloor();
+  };
+
+  const handleDecreaseFloor = () => {
+    decreaseFloor();
   };
 
   return (
@@ -115,7 +76,16 @@ const Home: NextPage = () => {
             value={"Close Doors"}
             onClick={handleCloseDoors}
           />
-          
+          <input
+            type="button"
+            value={"Increase Floor"}
+            onClick={handleIncreaseFloor}
+          />
+          <input
+            type="button"
+            value={"Decrease Floor"}
+            onClick={handleDecreaseFloor}
+          />
         </div>
       </div>
       <div className={styles.layoutContainer}>

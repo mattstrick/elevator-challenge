@@ -16,6 +16,22 @@ export function elevatorReducer(elevator: any, action: any) {
         events: [...elevator.events, 'Closed Doors'],
       };
     }
+    case "decrease floor": {
+        return {
+            currentFloor: elevator.currentFloor--,
+            doors: elevator.doors,
+            isMoving: elevator.isMoving,
+            events: [...elevator.events, `Moved to floor ${elevator.currentFloor}`],
+        };
+    }
+    case "increase floor": {
+        return {
+            currentFloor: elevator.currentFloor++,
+            doors: elevator.doors,
+            isMoving: elevator.isMoving,
+            events: [...elevator.events, `Moved to floor ${elevator.currentFloor}`],
+        };
+    }
     default: {
       throw Error("Unknown action: " + action.type);
     }
