@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 
 const ElevatorHistory = (props: any) => {
   return (
-    <div className={styles.card}>
+    <div>
       <h1>Elevator History</h1>
       <div className={styles.overlay}></div>
       <ul>

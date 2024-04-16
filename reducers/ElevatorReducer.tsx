@@ -1,3 +1,12 @@
+const updateEvents = (events: Array<string>, newEvent: string) => {
+    if (events.length < 10) {
+        return [...events, newEvent];
+    } else {
+        const _events = events.slice(1);
+        return [..._events, newEvent];
+    };
+}
+
 export function elevatorReducer(elevator: any, action: any) {
   switch (action.type) {
     case "open doors": {
@@ -5,7 +14,7 @@ export function elevatorReducer(elevator: any, action: any) {
         currentFloor: elevator.currentFloor,
         doors: "open",
         isMoving: elevator.isMoving,
-        events: [...elevator.events, 'Opened Doors'],
+        events: updateEvents(elevator.events, "Opened Doors"),
       };
     }
     case "close doors": {
@@ -13,23 +22,25 @@ export function elevatorReducer(elevator: any, action: any) {
         currentFloor: elevator.currentFloor,
         doors: "closed",
         isMoving: elevator.isMoving,
-        events: [...elevator.events, 'Closed Doors'],
+        events: updateEvents(elevator.events, "Closed Doors"),
       };
     }
     case "decrease floor": {
-        return {
+        if (elevator.currentFloor === 0) return elevator;
+        else return {
             currentFloor: elevator.currentFloor--,
             doors: elevator.doors,
             isMoving: elevator.isMoving,
-            events: [...elevator.events, `Moved to floor ${elevator.currentFloor}`],
+            events: updateEvents(elevator.events, `Moved to floor ${elevator.currentFloor}`),
         };
     }
     case "increase floor": {
-        return {
+        if (elevator.currentFloor === 20) return elevator;
+        else return {
             currentFloor: elevator.currentFloor++,
             doors: elevator.doors,
             isMoving: elevator.isMoving,
-            events: [...elevator.events, `Moved to floor ${elevator.currentFloor}`],
+            events: updateEvents(elevator.events, `Moved to floor ${elevator.currentFloor}`),
         };
     }
     default: {
