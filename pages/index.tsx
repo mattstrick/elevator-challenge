@@ -67,7 +67,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      <div className={styles.controlsContainer}>
         <h1>Controls</h1>
         <div>
           <input type="button" value={"Open Doors"} onClick={handleOpenDoors} />

@@ -135,6 +135,10 @@
   );
 }
 
+.controlsContainer input {
+    margin-right: 15px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
