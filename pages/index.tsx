@@ -4,9 +4,11 @@ import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import ElevatorHistory from "../components/ElevatorHistory";
 import { useReducer } from "react";
+import { elevatorReducer } from "../reducers/ElevatorReducer";
+import ElevatorDisplay from "../components/ElevatorDisplay";
 
 const Home: NextPage = () => {
-  const initialTasks = { doors: 'closed'};
+  const initialTasks = { doors: 'closed', isMoving: false, currentFloor: 0};
 
   const [currentFloor, setCurrentFloor] = useState(1);
   const [isMoving, setIsMoving] = useState(false);
@@ -20,12 +22,10 @@ const Home: NextPage = () => {
 
     if (todo.length > 0) {
       nextTodo = todo.shift();
-      console.log("todo", todo);
       setTodo([...todo]);
 
       // Do something with the todo
     } else {
-      console.log("current floor", currentFloor);
       // Go to floor 1 and open doors
       if (currentFloor > 1) {
         decreaseFloor();
@@ -110,26 +110,6 @@ const Home: NextPage = () => {
     setEvents([...events, newEvent]);
   };
 
-  function elevatorReducer(elevator: object, action: any) {
-    switch (action.type) {
-      case "open doors": {
-        return {
-          ...elevator,
-          doors: "open",
-        };
-      }
-      case "close doors": {
-        return {
-          ...elevator,
-          doors: "closed",
-        };
-      }
-      default: {
-        throw Error("Unknown action: " + action.type);
-      }
-    }
-  }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -140,12 +120,7 @@ const Home: NextPage = () => {
 
       <div className={styles.layoutContainer}>
         <div className={styles.leftColumn}>
-          <div className={styles.card}>
-            <h1>Elevator</h1>
-            <div>Floor {currentFloor}</div>
-            <div>{isMoving ? "Is moving" : "Is not moving"}</div>
-            <div>Doors are {elevator.doors}</div>
-          </div>
+          <ElevatorDisplay elevator={elevator} />
         </div>
         <div className={styles.rightColumn}>
           <ElevatorHistory history={events} />

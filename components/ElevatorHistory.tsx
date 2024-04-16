@@ -1,7 +1,6 @@
 import styles from "../styles/Home.module.css";
 
 const ElevatorHistory = (props: any) => {
-  console.log("Props", props);
   return (
     <div className={styles.card}>
       <h1>Elevator History</h1>
