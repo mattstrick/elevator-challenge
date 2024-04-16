@@ -1,19 +1,23 @@
-export function elevatorReducer(elevator: object, action: any) {
-    switch (action.type) {
-      case "open doors": {
-        return {
-          ...elevator,
-          doors: "open",
-        };
-      }
-      case "close doors": {
-        return {
-          ...elevator,
-          doors: "closed",
-        };
-      }
-      default: {
-        throw Error("Unknown action: " + action.type);
-      }
+export function elevatorReducer(elevator: any, action: any) {
+  switch (action.type) {
+    case "open doors": {
+      return {
+        currentFloor: elevator.currentFloor,
+        doors: "open",
+        isMoving: elevator.isMoving,
+        events: [...elevator.events, 'Opened Doors'],
+      };
+    }
+    case "close doors": {
+      return {
+        currentFloor: elevator.currentFloor,
+        doors: "closed",
+        isMoving: elevator.isMoving,
+        events: [...elevator.events, 'Closed Doors'],
+      };
+    }
+    default: {
+      throw Error("Unknown action: " + action.type);
     }
   }
+}
