@@ -3,90 +3,131 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import ElevatorHistory from "../components/ElevatorHistory";
+import { useReducer } from "react";
 
 const Home: NextPage = () => {
+  const initialTasks = { doors: 'closed'};
+
   const [currentFloor, setCurrentFloor] = useState(1);
   const [isMoving, setIsMoving] = useState(false);
   const [doors, setDoors] = useState("closed");
   const [events, setEvents] = useState<Array<string>>([]);
   const [todo, setTodo] = useState<Array<string>>([]);
+  const [elevator, dispatch] = useReducer(elevatorReducer, initialTasks);
 
   const getNextTodo = () => {
     let nextTodo;
 
     if (todo.length > 0) {
-        nextTodo = todo.shift();
-        console.log('todo', todo);
-        setTodo([...todo]);
+      nextTodo = todo.shift();
+      console.log("todo", todo);
+      setTodo([...todo]);
 
-        // Do something with the todo
+      // Do something with the todo
     } else {
-        console.log('current floor', currentFloor)
-        // Go to floor 1 and open doors
-        if (currentFloor > 1) {
-            decreaseFloor();
-        }
+      console.log("current floor", currentFloor);
+      // Go to floor 1 and open doors
+      if (currentFloor > 1) {
+        decreaseFloor();
+      }
 
-        if (currentFloor === 1 && doors === "closed") {
-            openDoors();
-        }
+      if (currentFloor === 1 && doors === "closed") {
+        openDoors();
+      }
     }
-  }
+  };
 
   const decreaseFloor = () => {
-    if (currentFloor > 1) {
-        setCurrentFloor(currentFloor - 1);
-        console.log('new floor is ', currentFloor);
-        updateEventsList(`Moved to floor ${currentFloor}`);
-    } else {
-        console.warn('cant go down anymore!');
-    }
-  }
+    dispatch({
+      type: "decrease floor",
+      floor: currentFloor,
+    });
+
+    // if (currentFloor > 1) {
+    //     setCurrentFloor(currentFloor - 1);
+    //     updateEventsList(`Moved to floor ${currentFloor}`);
+    // } else {
+    //     console.warn('cant go down anymore!');
+    // }
+  };
 
   const increaseFloor = () => {
-    if (currentFloor > 20) {
-        console.warn('cant go up anymore!');
-    } else {
-        setCurrentFloor(currentFloor + 1);
-        console.log('new floor is ', currentFloor);
-        updateEventsList(`Moved to floor ${currentFloor}`);
-    }
-  }
+    dispatch({
+      type: "increase floor",
+      floor: currentFloor,
+    });
+
+    // if (currentFloor === 20) {
+    //     console.warn('cant go up anymore!');
+    // } else {
+    //     setCurrentFloor(currentFloor + 1);
+    //     console.log('new floor is ', currentFloor);
+    //     updateEventsList(`Moved to floor ${currentFloor}`);
+    // }
+  };
 
   const openDoors = () => {
-    setDoors("open");
-    updateEventsList('Opened doors');
-  }
+    dispatch({
+      type: "open doors",
+    });
+
+    // setDoors("open");
+    // updateEventsList('Opened doors');
+  };
 
   const closeDoors = () => {
-    setDoors("close");
-    updateEventsList('Closed doors');
-  }
+    dispatch({
+      type: "close doors",
+    });
 
-//   const requestElevator = (floor: number): void => {
-//     if (floor === currentFloor) {
-//         receiveTenant();
-//     } else if (floor > currentFloor) {
-//         // Go Up
-//     } else {
-//         // Go Down
-//     }
-//   }
+    // setDoors("close");
+    // updateEventsList('Closed doors');
+  };
 
-//   const receiveTenant = (): void => {
-//     if (doors === 'closed') {
-//         setDoors('open');
-//         updateEventsList('Doors opened');
-//     } else {
-//         // Do Work
-//     }
-//   }
+  //   const requestElevator = (floor: number): void => {
+  //     if (floor === currentFloor) {
+  //         receiveTenant();
+  //     } else if (floor > currentFloor) {
+  //         // Go Up
+  //     } else {
+  //         // Go Down
+  //     }
+  //   }
+
+  //   const receiveTenant = (): void => {
+  //     if (doors === 'closed') {
+  //         setDoors('open');
+  //         updateEventsList('Doors opened');
+  //     } else {
+  //         // Do Work
+  //     }
+  //   }
 
   const updateEventsList = (newEvent: string): void => {
     // if (events.length >= 20) {
     //     setEvents([...events.slice(1),newEvent])
     // }
     setEvents([...events, newEvent]);
+  };
+
+  function elevatorReducer(elevator: object, action: any) {
+    switch (action.type) {
+      case "open doors": {
+        return {
+          ...elevator,
+          doors: "open",
+        };
+      }
+      case "close doors": {
+        return {
+          ...elevator,
+          doors: "closed",
+        };
+      }
+      default: {
+        throw Error("Unknown action: " + action.type);
+      }
+    }
   }
 
   return (
@@ -101,15 +142,9 @@ const Home: NextPage = () => {
         <div className={styles.leftColumn}>
           <div className={styles.card}>
             <h1>Elevator</h1>
-            <div>
-                Floor {currentFloor}
-            </div>
-            <div>
-                {isMoving?'Is moving' : 'Is not moving'}
-            </div>
-            <div>
-                Doors are {doors}
-            </div>
+            <div>Floor {currentFloor}</div>
+            <div>{isMoving ? "Is moving" : "Is not moving"}</div>
+            <div>Doors are {elevator.doors}</div>
           </div>
         </div>
         <div className={styles.rightColumn}>
